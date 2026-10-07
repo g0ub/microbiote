@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* évite les barres de défilement quand un perso sort du cadre */
+        }
+        img.background {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* ---- Personnages volants ---- */
+        .flyer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none; /* ne gêne pas les clics */
+            will-change: transform;
+        }
+        .flyer img {
+            display: block;
+            width: 120px;   /* ajuste la taille ici */
+            height: auto;
+            will-change: transform;
+        }
+
+        /* L'ange : traverse de gauche à droite, vol lent et planant */
+        .ange {
+            animation: traverse-ange 26s linear infinite;
+        }
+        .ange .flotte {
+            animation: flotte-ange 3.5s ease-in-out infinite;
+        }
+        .ange .flotte img {
+            transform-origin: 50% 45%; /* pivot près du corps */
+            animation: bat-ailes 0.55s ease-in-out infinite;
+        }
+        @keyframes traverse-ange {
+            from { transform: translateX(-140px) translateY(20vh); }
+            to   { transform: translateX(100vw)  translateY(20vh); }
+        }
+        @keyframes flotte-ange {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50%      { transform: translateY(-30px) rotate(4deg); }
+        }
+        @keyframes bat-ailes {
+            0%, 100% { transform: scaleX(1)    scaleY(1);    }
+            50%      { transform: scaleX(0.84) scaleY(1.05); } /* ailes repliées + léger étirement */
+        }
+
+        /* Le démon : traverse de droite à gauche, vol plus nerveux */
+        .demon {
+            animation: traverse-demon 20s linear infinite;
+        }
+        .demon img {
+            animation: flotte-demon 2.2s ease-in-out infinite;
+        }
+        @keyframes traverse-demon {
+            from { transform: translateX(100vw)  translateY(60vh); }
+            to   { transform: translateX(-140px) translateY(60vh); }
+        }
+        @keyframes flotte-demon {
+            0%, 100% { transform: translateY(0) rotate(6deg) scaleX(-1); }
+            50%      { transform: translateY(40px) rotate(-6deg) scaleX(-1); }
+        }
+        /* scaleX(-1) retourne le démon pour qu'il "regarde" vers sa direction.
+           Retire-le si ton PNG est déjà orienté dans le bon sens. */
+
+        /* Sur petit écran, on réduit un peu les personnages */
+        @media (max-width: 600px) {
+            .flyer img { width: 90px; }
+        }
+    </style>
+</head>
+<body>
+    <img class="background" src="MT180.jpg" alt="Coming Soon">
+
+    <div class="flyer ange">
+        <div class="flotte">
+            <img src="ange.png" alt="Ange">
+        </div>
+    </div>
+
+    <div class="flyer demon">
+        <img src="demon.png" alt="Démon">
+    </div>
+</body>
+</html>
