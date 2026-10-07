@@ -10,6 +10,7 @@
   <meta property="og:description" content="Vulgarisation scientifique sur le microbiote intestinal : obésité, Ma thèse en 180 secondes, jeux et test du transit à la maison.">
   <meta property="og:image" content="https://g0ub.github.io/microbiote/media/mt180-poster.jpg">
   <meta property="og:url" content="https://g0ub.github.io/microbiote/">
+  <link rel="canonical" href="https://g0ub.github.io/microbiote/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1176,6 +1177,9 @@
 // ===== Mesure d'audience GoatCounter (sans cookies) =====
 // Code du site dans GoatCounter : https://<code>.goatcounter.com
 const GOATCOUNTER_CODE = 'microbiote';
+// Page dont on affiche le nombre de vues (le total « TOTAL » est mis en cache plusieurs heures par GoatCounter).
+// Grâce au lien « canonical », toutes les variantes d'adresse (?lang=en, index.html…) sont comptées sur ce chemin.
+const GOATCOUNTER_PATH = '/microbiote/';
 
 // ===== Base de données des résultats collectifs (Supabase) =====
 // Laisser vide = mode démonstration (données fictives).
@@ -2305,13 +2309,14 @@ $('#reflist').innerHTML = REFS.map((r, i) => {
 
 // ---------- compteur de visites (GoatCounter) ----------
 // Nécessite l'option « Allow adding visitor counts on your website » dans les réglages GoatCounter.
+// Le chiffre affiché peut avoir quelques minutes de retard sur le tableau de bord (cache de GoatCounter).
 (() => {
   if (!GOATCOUNTER_CODE) return;
   const s = document.createElement('script');
   s.async = true; s.src = 'https://gc.zgo.at/count.js';
   s.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
   document.body.appendChild(s);
-  fetch(`https://${GOATCOUNTER_CODE}.goatcounter.com/counter/TOTAL.json`)
+  fetch(`https://${GOATCOUNTER_CODE}.goatcounter.com/counter/${encodeURIComponent(GOATCOUNTER_PATH)}.json`)
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(d => { $('#gc-count').textContent = d.count; })
     .catch(() => { $('#gc-count').textContent = '—'; });
